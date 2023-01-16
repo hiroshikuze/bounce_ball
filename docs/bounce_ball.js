@@ -40,7 +40,7 @@ function draw() {
   background(220);
   ball.map((line) => {
     line.movement();
-    line.collisionDecision();
+    line.wallCollisionDecision();
     ellipse(line.x, line.y, line.r, line.r);
   });
   if(isReset()) {
@@ -94,7 +94,7 @@ class Ball {
   r;
 
   /**
-   * 初期化
+   * 初期配置
    */
   constructor () {
     this.x = SCENE.WIDTH/2+(random()*SCENE.WIDTH-SCENE.WIDTH/2)/2;
@@ -102,7 +102,10 @@ class Ball {
     this.vx = random()*200-100;
     this.vy = random()*200-100;
     this.r = random()*60+20;
-  };
+    while(this.ballCollisionDecision().length > 0) {
+      this.y -= this.r * 2;
+    }
+  }
 
   /**
    * 移動
@@ -111,19 +114,15 @@ class Ball {
     this.x += this.vx / 60;
     this.y += this.vy / 60;
     this.vy += G;
-  };
+  }
 
   /**
-   * 当たり判定
+   * 当たり判定:壁
    */
-  collisionDecision() {
+  wallCollisionDecision() {
     if(this.x - this.r / 2 < 0) {
       this.x = this.r / 2;
       this.vx = this.vx * -1;
-    }
-    if(this.y - this.r / 2 < 0) {
-      this.y = this.r / 2;
-      this.vy = this.vy * -1;
     }
     if(this.x + this.r / 2 > SCENE.WIDTH) {
       this.x = SCENE.WIDTH - this.r / 2;
@@ -134,7 +133,34 @@ class Ball {
       this.vx = this.vx * 0.8;
       this.vy = this.vy * -0.5;
     }
-  };
+    if(Math.abs(this.vx) < 0.1) {
+      this.vx = 0;
+    }
+    if(Math.abs(this.vy) < 0.1) {
+      this.vy = 0;
+    }
+  }
+
+  /**
+   * 当たり判定:ボール
+   * @returns [integer...] 衝突しているボール配列番号
+   */
+  ballCollisionDecision() {
+    let result = [];
+    for(let i = 0; i < BALLS; i++) {
+      if(typeof ball[i] === 'undefined'
+      || (this.x === ball[i].x && this.y === ball[i].y)) {
+        continue;
+      }
+      /** 対象と自分との距離 */
+      const distance = Math.sqrt(Math.pow(ball[i].x - this.x,2) + Math.pow(ball[i].y - this.y,2));
+      if(this.r < distance) {
+        continue;
+      }
+      result.push(i);
+    }
+    return result;
+  }
 
   /**
    * 停止したか
@@ -145,8 +171,8 @@ class Ball {
       return true;
     }
     return false;
-  };
-};
+  }
+}
 
 /**
  * シーン
