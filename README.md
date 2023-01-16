@@ -4,6 +4,10 @@ A bouncing ball demonstration using p5.js.
 
 [See this site for details on p5.js.](https://p5js.org/).
 
+## DEMO
+
+[DEMO page.](https://hiroshikuze.github.io/bounce_ball/)
+
 ## LICENCE
 
 MIT License.
