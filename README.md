@@ -20,6 +20,12 @@ MIT License.
 
 [Author's wish list by Amazon(Japanese)](https://www.amazon.jp/hz/wishlist/ls/5BAWD0LZ89V9?ref_=wl_share)
 
+## ⭐ Star
+
+If you find this project useful, please give it a star!
+
+[![GitHub Stars](https://img.shields.io/github/stars/hiroshikuze/bounce_ball?style=for-the-badge&logo=github&label=Stars&color=yellow&labelColor=black)](https://github.com/hiroshikuze/bounce_ball/stargazers)
+
 ## 💖 Support my work
 
 If you'd like to support my projects, please consider becoming a sponsor!
